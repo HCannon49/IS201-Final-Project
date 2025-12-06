@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Color Guessing Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #232323;
+            color: white;
+            margin: 0;
+        }
+        h1 { margin-top: 20px; text-transform: uppercase; }
+        #color-display { font-size: 200%; font-weight: bold; display: block; margin-bottom: 10px; }
+        #stripe { background: white; height: 30px; text-align: center; color: black; }
+        .selected { background: steelblue; color: white; }
+        
+        /* Updated CSS to style both the Button and the Link the same way */
+        button, #home-btn {
+            border: none;
+            background: none;
+            text-transform: uppercase;
+            height: 100%;
+            font-weight: 700;
+            color: steelblue;
+            letter-spacing: 1px;
+            font-size: inherit;
+            transition: all 0.3s;
+            cursor: pointer;
+            outline: none;
+            text-decoration: none; /* Removes underline from link */
+            display: inline-block; /* Helps the link behave like a button */
+            line-height: 30px; /* Vertically centers text in the stripe */
+            padding: 0 10px; /* Adds spacing */
+        }
+        
+        button:hover, #home-btn:hover { color: white; background-color: steelblue; }
+        
+        #message { display: inline-block; width: 20%; }
+        #score-display { display: inline-block; width: 20%; font-weight: bold; color: black; }
+        
+        .square {
+            width: 30%;
+            background: purple;
+            padding-bottom: 30%;
+            float: left;
+            margin: 1.66%;
+            border-radius: 15px;
+            transition: background 0.6s;
+            cursor: pointer;
+        }
+        #container { margin: 20px auto; max-width: 600px; }
+        .header { background: steelblue; padding: 20px 0; margin-bottom: 0; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>The Great <span id="color-display">RGB</span> Guessing Game</h1>
+</div>
+
+<div id="stripe">
+    <a href="../startbootstrap-full-width-pics-gh-pages/index.html" id="home-btn">Return Home</a>
+    
+    <button id="reset">New Colors</button>
+    <span id="message"></span>
+    <span id="score-display">Score: 0</span>
+</div>
+
+<div id="container">
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+    <div class="square"></div>
+</div>
+
+<script>
+    var numSquares = 6;
+    var colors = [];
+    var pickedColor;
+    var squares = document.querySelectorAll(".square");
+    var colorDisplay = document.getElementById("color-display");
+    var messageDisplay = document.querySelector("#message");
+    var scoreDisplay = document.querySelector("#score-display");
+    var resetButton = document.querySelector("#reset");
+    var h1 = document.querySelector(".header");
+    
+    // Game State Variables
+    var score = 0;
+    var gameFinished = false; 
+
+    init();
+
+    function init(){
+        setupSquares();
+        reset();
+    }
+
+    function setupSquares(){
+        for(var i = 0; i < squares.length; i++){
+            // Add click listeners to squares
+            squares[i].addEventListener("click", function(){
+                // If the round is already won, stop clicks from registering
+                if(gameFinished) return;
+
+                var clickedColor = this.style.backgroundColor;
+
+                if(clickedColor === pickedColor){
+                    // Correct Guess Logic
+                    messageDisplay.textContent = "Correct!";
+                    changeColors(clickedColor);
+                    h1.style.backgroundColor = clickedColor;
+                    resetButton.textContent = "Next Round";
+                    
+                    // Add 10 points for winning
+                    score += 10;
+                    scoreDisplay.textContent = "Score: " + score;
+                    
+                    // Mark game as finished
+                    gameFinished = true; 
+                } else {
+                    // Wrong Guess Logic
+                    this.style.backgroundColor = "#232323"; // Fade out
+                    messageDisplay.textContent = "Try Again";
+                    
+                    // Deduct 2 points for wrong guess
+                    score -= 2;
+                    scoreDisplay.textContent = "Score: " + score;
+                }
+            });
+        }
+    }
+
+    function reset(){
+        // Reset game state
+        gameFinished = false;
+        
+        // Generate new colors
+        colors = generateRandomColors(numSquares);
+        pickedColor = pickColor();
+        colorDisplay.textContent = pickedColor;
+        resetButton.textContent = "New Colors";
+        messageDisplay.textContent = "";
+        
+        // Reset squares
+        for(var i = 0; i < squares.length; i++){
+            squares[i].style.display = "block";
+            squares[i].style.backgroundColor = colors[i];
+        }
+        h1.style.backgroundColor = "steelblue";
+    }
+
+    // Reset button functionality
+    resetButton.addEventListener("click", function(){ 
+        reset(); 
+    });
+
+    function changeColors(color){
+        // Loop through all squares and change to match given color
+        for(var i = 0; i < squares.length; i++){
+            squares[i].style.backgroundColor = color;
+        }
+    }
+
+    function pickColor(){
+        var random = Math.floor(Math.random() * colors.length);
+        return colors[random];
+    }
+
+    function generateRandomColors(num){
+        var arr = [];
+        for(var i = 0; i < num; i++){
+            arr.push(randomColor());
+        }
+        return arr;
+    }
+
+    function randomColor(){
+        // Pick a "red" from 0 - 255
+        var r = Math.floor(Math.random() * 256);
+        // Pick a "green" from 0 - 255
+        var g = Math.floor(Math.random() * 256);
+        // Pick a "blue" from 0 - 255
+        var b = Math.floor(Math.random() * 256);
+        return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+</script>
+</body>
+</html>

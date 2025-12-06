@@ -1,0 +1,103 @@
+/* General Design */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: rgb(6, 6, 143);
+    background-color: antiquewhite;
+}
+
+h2 {
+    text-decoration: underline;
+    text-align: center;
+    color:mediumvioletred;
+}
+
+h3 {
+    font-weight: bold;
+}
+
+h4 {
+    font-style: italic;
+    font-weight: lighter;
+}
+
+ol {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;  
+}
+
+ul {
+    font-size: 15px;
+    font-style: italic;
+    font-weight: normal;
+    text-align: left;
+}
+
+.list-width {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.center {
+    text-align: center;
+}
+
+/* Layout Design */
+.common {
+    position: absolute;
+}
+
+.header {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    height: 100px;
+}
+
+.leftmenu {
+    position: fixed;
+    top: 0px;
+    left: 5px;
+    width: 100px;
+    bottom: 0px;
+    border-right: solid 1px #555555;
+}
+
+.mainbody {
+    top: 114px;
+    left: 114px;
+    right: 114px;
+    bottom: 39px;
+    padding-right: 5px;
+}
+
+.rightmenu {
+    position: fixed;
+    top: 0px;
+    right: 5px;
+    width: 100px;
+    bottom: 0px;
+    border-left: solid 1px #555555;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.subheader {
+    float: right;
+}
+
+.image {
+    width: 560px;
+}
+
+.img-hover {
+    transition: transform 0.3s ease;
+}
+.img-hover:hover {
+    transform: scale(1.02);
+}
